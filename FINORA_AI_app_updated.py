@@ -51,6 +51,7 @@ st.markdown("""
         border-left: 4px solid #1E88E5;
         margin-bottom: 10px;
     }
+
     .agent-pill {
         display: inline-block;
         padding: 4px 10px;
@@ -59,11 +60,67 @@ st.markdown("""
         font-weight: 600;
         margin-right: 5px;
     }
-    .agent-pill-active { background-color: #e8f5e9; color: #2e7d32; }
-    .agent-pill-offline { background-color: #fff3e0; color: #e65100; }
-    .priority-high { border-left: 5px solid #d32f2f; background-color: #ffebee; }
-    .priority-medium { border-left: 5px solid #f57c00; background-color: #fff8e1; }
-    .priority-normal { border-left: 5px solid #388e3c; background-color: #e8f5e9; }
+
+    .agent-pill-active {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .agent-pill-offline {
+        background-color: #fff3e0;
+        color: #e65100;
+    }
+
+    .priority-high {
+        border-left: 5px solid #d32f2f;
+        background-color: #ffebee;
+    }
+
+    .priority-medium {
+        border-left: 5px solid #f57c00;
+        background-color: #fff8e1;
+    }
+
+    .priority-normal {
+        border-left: 5px solid #388e3c;
+        background-color: #e8f5e9;
+    }
+
+    /* FINORA AI LANDING PAGE */
+
+    .finora-hero {
+        background: linear-gradient(135deg, #0C182D, #183B50);
+        padding: 55px 40px;
+        border-radius: 18px;
+        border: 1px solid #24566A;
+        margin: 10px 0 25px 0;
+    }
+
+    .finora-hero h1 {
+        color: #FFFFFF;
+        font-size: 48px;
+        font-weight: 800;
+    }
+
+    .finora-hero h3 {
+        color: #22D3BE;
+        font-size: 23px;
+    }
+
+    .finora-hero p {
+        color: #D5E2ED;
+        font-size: 17px;
+    }
+
+    .finora-feature {
+        background: #F1F7F8;
+        color: #15283D;
+        padding: 22px;
+        border-radius: 12px;
+        min-height: 150px;
+        border-top: 4px solid #22D3BE;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -132,10 +189,18 @@ else:
     )
 
 st.sidebar.divider()
+# Set the default page
+if "page" not in st.session_state:
+    st.session_state["page"] = "Home"
+
+# Navigate to dashboard
+def go_to_dashboard():
+    st.session_state["page"] = "Business Overview"
 
 page = st.sidebar.radio(
     "FINANCIAL SUITE",
     [
+        "Home",
         "Business Overview",
         "Transaction Management",
         "Historical Financial Analysis",
@@ -144,7 +209,8 @@ page = st.sidebar.radio(
         "Strategy Advisor",
         "Financial Reports",
         "AI Agent Centre"
-    ]
+    ],
+    key="page"
 )
 
 st.sidebar.divider()
@@ -156,9 +222,123 @@ st.sidebar.info(
 
 
 # =====================================================================
+# HOME: FINORA AI LANDING PAGE
+# =====================================================================
+if page == "Home":
+    st.markdown("""
+    <div class="finora-hero">
+        <h3>INTELLIGENCE BEHIND EVERY FINANCIAL DECISION</h3>
+        <h1>FINORA AI</h1>
+        <p>
+            Smarter cash-flow management for small businesses.
+            Analyze financial data, forecast future cash positions,
+            detect risks early, and make informed financial decisions.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    intro_col, visual_col = st.columns([1.15, 0.85], gap="large")
+
+    with intro_col:
+        st.subheader("Take control of your business finances.")
+        st.write(
+            "FINORA AI is an AI-powered financial decision-support system "
+            "designed to help small businesses understand their cash flow, "
+            "prepare for upcoming obligations, and identify possible "
+            "liquidity problems before they happen."
+        )
+        st.button(
+            "🚀 Get Started",
+            type="primary",
+            use_container_width=True,
+            on_click=go_to_dashboard
+        )
+
+    with visual_col:
+        st.markdown("""
+        <div style="
+            background: linear-gradient(145deg, #10243A, #1B5260);
+            color: white;
+            padding: 28px;
+            border-radius: 16px;
+            min-height: 235px;
+            border: 1px solid #2B7180;">
+            <div style="color:#22D3BE;font-size:14px;font-weight:700;">
+                FINANCIAL INTELLIGENCE
+            </div>
+            <div style="font-size:25px;font-weight:750;margin-top:14px;">
+                See risks earlier.<br>Decide smarter.
+            </div>
+            <div style="color:#D5E2ED;margin-top:14px;font-size:15px;">
+                Financial analysis · Cash forecasting · Risk detection
+            </div>
+            <div style="
+                margin-top:24px;
+                height:7px;
+                border-radius:10px;
+                background:linear-gradient(90deg,#22D3BE 0 72%,#477080 72% 100%);">
+            </div>
+            <div style="color:#B9D0D8;font-size:12px;margin-top:8px;">
+                ANALYZE  •  PREDICT  •  PROTECT
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.divider()
+    st.header("What FINORA AI can do")
+
+    feature_cols = st.columns(3, gap="medium")
+    feature_cards = [
+        (
+            "📊 Financial Analysis",
+            "Understand income, expenses, transaction history, and business performance."
+        ),
+        (
+            "📈 Cash Flow Prediction",
+            "Project future cash balances using upcoming inflows and outflows."
+        ),
+        (
+            "🛡️ Early Risk Detection",
+            "Identify projected cash shortages and minimum-reserve breaches."
+        )
+    ]
+
+    for column, (heading, description) in zip(feature_cols, feature_cards):
+        with column:
+            st.markdown(
+                f"""
+                <div class="finora-feature">
+                    <h4>{heading}</h4>
+                    <p>{description}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+    st.divider()
+    st.header("Powered by five specialist agents")
+
+    agent_cols = st.columns(5)
+    agent_names = [
+        "Data Analyst",
+        "Cash Flow Predictor",
+        "Risk Detector",
+        "Strategy Advisor",
+        "Financial Report"
+    ]
+    for column, agent_name in zip(agent_cols, agent_names):
+        with column:
+            st.markdown(f"**🤖 {agent_name} Agent**")
+
+    st.caption(
+        "FINORA AI combines Python-based financial calculations with "
+        "AI-generated explanations to support better business decisions."
+    )
+
+# =====================================================================
 # PAGE 1: BUSINESS OVERVIEW
 # =====================================================================
-if page == "Business Overview":
+elif page == "Business Overview":
     st.title("💼 Business Overview")
     st.caption(f"Financial summary and liquidity status for {business_name}")
     st.divider()
