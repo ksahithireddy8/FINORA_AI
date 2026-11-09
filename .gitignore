@@ -1,5 +1,6 @@
-.venv/
+@"
+venv/
 __pycache__/
-.env
 *.pyc
-data/*.xlsx
+.env
+"@ | Set-Content .gitignore
